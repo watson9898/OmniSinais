@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix OmniSinais - Estudo Interativo de Sinais, Fourier e Laplace",
+  "description": "Aplicativo educacional completo para Engenharia com resolução guiada passo a passo de equações, exercícios de múltipla escolha com dicas, simulador visual de sinais e polos/zeros, ranking global de estudantes e suporte Ko-fi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

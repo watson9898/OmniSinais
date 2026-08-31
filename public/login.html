@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acesso BYOK • OmniSinais 2026</title>
+  <meta name="description" content="Acesso com Bring Your Own Key (BYOK) para o OmniSinais - Plataforma Acadêmica de Sinais e Sistemas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #090d16 65%, #030712 100%);
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(99, 102, 241, 0.25);
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #818cf8;
+      --accent-emerald: #10b981;
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: #030712;
+      --input-border: #1e293b;
+      --error-bg: rgba(225, 29, 72, 0.15);
+      --error-border: rgba(244, 63, 94, 0.4);
+      --error-text: #fda4af;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --success-border: rgba(16, 185, 129, 0.4);
+      --success-text: #6ee7b7;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.5rem 1rem;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 580px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 1.5rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .brand-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #c7d2fe;
+    }
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .byok-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 0.3rem 0.65rem;
+      border-radius: 9999px;
+    }
+    .main-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6), 0 0 50px -20px rgba(99, 102, 241, 0.25);
+    }
+    .card-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #818cf8;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 0.75rem;
+    }
+    .card-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    
+    /* Tutorial / Explanatory Section */
+    .info-box {
+      background: rgba(30, 27, 75, 0.45);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 16px;
+      padding: 1.15rem;
+      margin-bottom: 1.5rem;
+    }
+    .info-intro {
+      font-size: 0.825rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+      margin-bottom: 0.85rem;
+    }
+    .info-intro strong {
+      color: #a5b4fc;
+    }
+    .steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+    }
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4f46e5;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-link {
+      color: #38bdf8;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
+    .step-link:hover {
+      color: #7dd3fc;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.775rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 0.4rem;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: #f8fafc;
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input.font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+    .form-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+    .toggle-pass-btn {
+      position: absolute;
+      right: 0.75rem;
+      background: transparent;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .toggle-pass-btn:hover {
+      color: #cbd5e1;
+    }
+    .help-hint {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    /* Action Button */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      color: white;
+      border: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.9rem 1.25rem;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.5);
+      transition: transform 0.15s, filter 0.2s, box-shadow 0.2s;
+      margin-top: 1.25rem;
+    }
+    .btn-submit:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 10px 25px -4px rgba(79, 70, 229, 0.65);
+    }
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    /* Privacy and Security Notice */
+    .security-note {
+      margin-top: 1.25rem;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.725rem;
+      color: #a7f3d0;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .security-note strong {
+      color: #34d399;
+    }
+
+    /* Alert / Error Box */
+    .alert-box {
+      display: none;
+      background: var(--error-bg);
+      border: 1px solid var(--error-border);
+      color: var(--error-text);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-size: 0.775rem;
+      margin-bottom: 1rem;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    .alert-box.success {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.725rem;
+      color: #64748b;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <div class="brand-title">
+            <span>OmniSinais</span>
+            <span class="brand-badge">2026 Pro</span>
+          </div>
+          <div class="brand-sub">Sinais & Sistemas Lineares • BYOK</div>
+        </div>
+      </div>
+      <div class="byok-pill">
+        <span>🔒 Cota Privativa</span>
+      </div>
+    </header>
+
+    <!-- Main Card -->
+    <div class="main-card">
+      <div class="card-header">
+        <div class="card-tag">Acesso Descentralizado • BYOK</div>
+        <h1 class="card-title">Acesso do Estudante</h1>
+        <p class="card-subtitle">
+          Utilize sua chave de API gratuita para desbloquear todas as simulações, calculadoras e resoluções com inteligência artificial.
+        </p>
+      </div>
+
+      <!-- Feedback Alert -->
+      <div id="alertBox" class="alert-box" role="alert"></div>
+
+      <!-- Instruction / Tutorial Card -->
+      <div class="info-box">
+        <p class="info-intro">
+          Para garantir acesso rápido e gratuito a todos, o <strong>OmniSinais</strong> utiliza o sistema <strong>BYOK (Traga sua própria chave)</strong>. O processamento de Transformadas de Laplace e Fourier consome recursos de IA, por isso, cada aluno utiliza a sua própria conexão.
+        </p>
+        <ul class="steps-list">
+          <li class="step-item">
+            <span class="step-num">1</span>
+            <span>Acesse o <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="step-link">Google AI Studio</a>.</span>
+          </li>
+          <li class="step-item">
+            <span class="step-num">2</span>
+            <span>Clique em <strong>'Get API Key'</strong> (ou <strong>'Create API Key'</strong>) e gere uma chave gratuita.</span>
+          </li>
+          <li class="step-item">
+            <span class="step-num">3</span>
+            <span>Cole sua chave abaixo.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Form -->
+      <form id="byokForm" onsubmit="handleLoginSubmit(event)">
+        <!-- Field 1: Name / Email -->
+        <div class="form-group">
+          <label class="form-label" for="userNameInput">Seu Nome ou E-mail</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="userNameInput"
+              class="form-input"
+              placeholder="Ex: estudante@universidade.edu.br ou seu_usuario"
+              required
+              autocomplete="name"
+            />
+          </div>
+          <div class="help-hint">Utilizado apenas para identificar seu perfil e pontuação XP na sessão.</div>
+        </div>
+
+        <!-- Field 2: API Key -->
+        <div class="form-group">
+          <label class="form-label" for="apiKeyInput">Sua Chave de API (API Key)</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="apiKeyInput"
+              class="form-input font-mono"
+              placeholder="Cole sua chave gerada no Google AI Studio..."
+              required
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              id="toggleKeyBtn"
+              class="toggle-pass-btn"
+              onclick="togglePasswordVisibility()"
+              title="Mostrar / Ocultar Chave"
+            >
+              Mostrar
+            </button>
+          </div>
+          <div class="help-hint">Copie o código completo da chave gerada no Google AI Studio.</div>
+        </div>
+
+        <!-- Primary Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span>Acessar o OmniSinais</span>
+          <span>→</span>
+        </button>
+
+        <!-- Security and Confidentiality Assurance -->
+        <div class="security-note">
+          <span>🛡️</span>
+          <div>
+            <strong>Sigilo Total & Segurança Local:</strong> Sua chave não é enviada para nenhum banco de dados ou servidor intermediário. Ela fica salva exclusivamente no <code>localStorage</code> do seu navegador no seu celular ou computador.
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      OmniSinais 2026 • Engenharia Elétrica & Computação • Sistema BYOK (Bring Your Own Key)
+    </footer>
+  </div>
+
+  <script>
+    // Check if user is already authenticated
+    window.addEventListener('DOMContentLoaded', () => {
+      const existingKey = localStorage.getItem('apiKey') || localStorage.getItem('omnisinais_gemini_api_key');
+      const existingName = localStorage.getItem('student_name') || localStorage.getItem('omnisinais_student_name');
+      
+      if (existingName) {
+        document.getElementById('userNameInput').value = existingName;
+      }
+      if (existingKey && existingKey.trim().length > 30) {
+        document.getElementById('apiKeyInput').value = existingKey.trim();
+      }
+    });
+
+    // Toggle Password Visibility
+    function togglePasswordVisibility() {
+      const input = document.getElementById('apiKeyInput');
+      const btn = document.getElementById('toggleKeyBtn');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'Ocultar';
+      } else {
+        input.type = 'password';
+        btn.textContent = 'Mostrar';
+      }
+    }
+
+    // Show custom alert message
+    function showAlert(message, isSuccess = false) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = message;
+      alertBox.style.display = 'block';
+      if (isSuccess) {
+        alertBox.className = 'alert-box success';
+      } else {
+        alertBox.className = 'alert-box';
+      }
+    }
+
+    // Main Login Handler
+    function handleLoginSubmit(event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById('userNameInput');
+      const keyInput = document.getElementById('apiKeyInput');
+      const submitBtn = document.getElementById('submitBtn');
+
+      const name = nameInput.value.trim();
+      const apiKey = keyInput.value.trim();
+
+      // Rule Validation
+      if (!name) {
+        showAlert('Por favor, informe seu Nome ou E-mail para identificação.');
+        nameInput.focus();
+        return;
+      }
+
+      if (!apiKey) {
+        showAlert('Por favor, insira sua chave de API do Google AI Studio.');
+        keyInput.focus();
+        return;
+      }
+
+      // Updated validation: verify that key is not empty and has > 30 chars (supports AIza, AQ., etc.)
+      if (apiKey.length <= 30) {
+        showAlert('A chave de API informada é inválida ou muito curta. Verifique se copiou o código completo gerado no Google AI Studio.');
+        keyInput.focus();
+        return;
+      }
+
+      // Visual progress feedback
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verificando e Conectando...</span>';
+      showAlert('Chave válida! Redirecionando para o OmniSinais...', true);
+
+      // Save credentials into localStorage as requested
+      try {
+        localStorage.setItem('apiKey', apiKey);
+        localStorage.setItem('userApiKey', apiKey);
+        localStorage.setItem('omnisinais_gemini_api_key', apiKey);
+        localStorage.setItem('student_name', name);
+        localStorage.setItem('omnisinais_student_name', name);
+
+        // Update student profile storage if exists
+        const profileRaw = localStorage.getItem('omnisinais_student_profile_v2');
+        let profile = profileRaw ? JSON.parse(profileRaw) : {};
+        profile = {
+          ...profile,
+          name: name,
+          apiKey: apiKey,
+          authData: {
+            isLoggedIn: true,
+            authProvider: 'google',
+            email: name.includes('@') ? name : '',
+            fullName: name,
+            apiKey: apiKey,
+            createdAt: profile?.authData?.createdAt || new Date().toISOString(),
+            lastLoginAt: new Date().toISOString(),
+            privacyAccepted: true,
+            dataPrivacyMode: 'strictly_confidential',
+          }
+        };
+        localStorage.setItem('omnisinais_student_profile_v2', JSON.stringify(profile));
+      } catch (err) {
+        console.error('Erro ao gravar no localStorage:', err);
+      }
+
+      // Redirect immediately to index.html
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 400);
+    }
+  </script>
+</body>
+</html>
